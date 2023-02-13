@@ -1,0 +1,27 @@
+{
+  "name": "crawling",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Moreira-Edu <ml.ri7u@gmail.com>",
+  "scripts": {
+    "dev": "npx nodemon",
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/index.js",
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix"
+  },
+  "dependencies": {
+    "puppeteer": "^19.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.34.0",
+    "nodemon": "^2.0.20",
+    "rimraf": "^4.1.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
