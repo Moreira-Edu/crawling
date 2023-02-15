@@ -1,32 +1,41 @@
 import puppeteer from "puppeteer";
-import * as dotenv from "dotenv";
-
-dotenv.config();
-const {
+import {
+  LOGIN_BUTTON,
   PAGE_URL,
-  USER_ID,
   PASSWORD,
+  USER_ID,
   USER_ID_INPUT,
   USER_PASSWORD_INPUT,
-  LOGIN_BUTTON,
-} = process.env;
+} from "../dotenv";
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
   const page = await browser.newPage();
+  await page.setRequestInterception(true);
 
-  if (PAGE_URL) await page.goto(PAGE_URL);
+  page.on("request", (request) => {
+    if (
+      request.resourceType() === "image" ||
+      request.resourceType() === "stylesheet"
+    )
+      request.abort();
+    else request.continue();
+  });
 
-  if (USER_ID && USER_ID_INPUT) {
-    await page.waitForSelector(USER_ID_INPUT);
-    await page.click(USER_ID_INPUT);
-    await page.type(USER_ID_INPUT, USER_ID);
+  if (PAGE_URL) await page.goto(PAGE_URL, { waitUntil: "networkidle0" });
+
+  if (USER_ID_INPUT && USER_ID) {
+    const input = await page.waitForSelector(USER_ID_INPUT, { visible: true });
+    await input?.focus();
+    await page.type(USER_ID_INPUT, USER_ID, { delay: 15 });
   }
 
-  if (PASSWORD && USER_PASSWORD_INPUT) {
-    await page.waitForSelector(USER_PASSWORD_INPUT);
-    await page.click(USER_PASSWORD_INPUT);
-    await page.type(USER_PASSWORD_INPUT, PASSWORD);
+  if (USER_PASSWORD_INPUT && PASSWORD) {
+    const input = await page.waitForSelector(USER_PASSWORD_INPUT, {
+      visible: true,
+    });
+    await input?.focus();
+    await page.type(USER_PASSWORD_INPUT, PASSWORD, { delay: 15 });
   }
 
   if (LOGIN_BUTTON) {
