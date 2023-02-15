@@ -7,6 +7,7 @@ import {
   USER_ID_INPUT,
   USER_PASSWORD_INPUT,
 } from "../dotenv";
+import { catchInfo } from "./catch";
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -42,4 +43,10 @@ import {
     await page.waitForSelector(LOGIN_BUTTON);
     await page.click(LOGIN_BUTTON);
   }
+
+  await page.waitForNavigation();
+
+  const info = await catchInfo(page);
+
+  console.table(info);
 })();
