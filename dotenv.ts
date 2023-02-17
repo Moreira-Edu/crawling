@@ -18,4 +18,5 @@ export const {
   SEMESTER_COMPLETED,
   MAX_SEMESTER,
   LEAVE_SEMESTER,
+  HISTORIC,
 } = process.env;
