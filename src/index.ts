@@ -7,9 +7,11 @@ import {
   USER_ID_INPUT,
   USER_PASSWORD_INPUT,
   HISTORIC,
+  SCHEDULE,
 } from "../dotenv";
 import { catchInfo } from "./catch";
 import { catchHistoric } from "./historic";
+import { classSchedule } from "./schedule";
 
 (async () => {
   const browser = await puppeteer.launch({ headless: false });
@@ -58,4 +60,9 @@ import { catchHistoric } from "./historic";
   const historicInfo = await catchHistoric(page);
 
   console.log(historicInfo);
+
+  const schedule = await page.waitForSelector(SCHEDULE!, { visible: true });
+  await schedule?.click();
+  await page.waitForNavigation();
+  await classSchedule(page);
 })();

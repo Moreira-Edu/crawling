@@ -19,4 +19,5 @@ export const {
   MAX_SEMESTER,
   LEAVE_SEMESTER,
   HISTORIC,
+  SCHEDULE,
 } = process.env;
