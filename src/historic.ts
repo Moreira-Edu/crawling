@@ -21,7 +21,7 @@ export const catchHistoric = async (page: Page) => {
     )
   );
 
-  const historic: { [key: string]: string[] } = columns.reduce((acc) => {
+  const historic: { [key: string]: string[] } = rows.reduce((acc) => {
     const row = rows.splice(0, columns.length - 1);
 
     return { ...acc, [row[0]!]: row };
