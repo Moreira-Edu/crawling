@@ -56,23 +56,26 @@ export const classSchedule = async (page: Page) => {
   const rowsRegex =
     /(?<hour>[0-9]{2}:[0-9]{2}-[0-9]{2}:[0-9]{2})(?<abbr>[\w]{6})(?<class>a)/gim;
 
-  // const schedule = weekColumns.reduce((acc, day) => {
-  //   return {
-  //     ...acc,
-  //     [day!]: scheduleRows.reduce((acc) => {
-  //       const row = scheduleRows.splice(0, scheduleColumns.length - 1);
-  //       return { ...acc, [row[1]!]: row };
-  //     }, {}),
-  //   };
-  // }, {});
-  const days = scheduleRows.map((row) => {
-    const matches = [...row!.matchAll(rowsRegex)];
-    const [...result] = matches.map((match) => {
+  const daysSchedule = scheduleRows.map((row) => {
+    const matches = [...row!.matchAll(rowsRegex)].map((match) => {
       return { ...match.groups };
     });
-
-    if (result.length < 1) result.pop();
-    return result;
+    return matches;
   });
-  console.log(days);
+
+  const schedule = weekColumns.reduce((acc, day, i) => {
+    return {
+      ...acc,
+      [day!]: daysSchedule[i],
+    };
+  }, {});
+
+  console.log(
+    "actualSemester:",
+    actualSemester,
+    "scheduleColumns:",
+    scheduleColumns,
+    "schedule",
+    schedule
+  );
 };
